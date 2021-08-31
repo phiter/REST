@@ -17,4 +17,4 @@ soluções para possiveis erro na depedencia do front
     npm install
   
   
- api em : https://github.com/alfredo1995/SPA7
+ app em : https://github.com/alfredo1995/SPA7
