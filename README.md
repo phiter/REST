@@ -1,15 +1,7 @@
-clonar back end (web api)
-  
-     git clone UrlCopiadaParaClonar
-
 inicialização back end (abrindo swagger)
 
     ctrl + shift + b
     inicializar na DevIO.Api
-  
-clonar front end (spa angular)
-
-    git clone UrlCopiadaParaClonagem
   
 inicialização front end ( abrindo aplicação)
   
