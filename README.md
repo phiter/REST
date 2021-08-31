@@ -1,4 +1,4 @@
-# REST com ASP.NET Core Web Api integrado ao SPA Angular 7 
+REST com ASP.NET Core Web Api integrado ao SPA Angular 7 
 
 clonar back end (web api)
   
