@@ -19,7 +19,7 @@ soluções para possiveis erro na depedencia do front
   
  app em : https://github.com/alfredo1995/SPA7
 
- <br>
+ <br><br>
 
 criar solution blank como projeto
 	
@@ -1154,6 +1154,8 @@ criar a class 20190503042709_Initial.cs
 			}
 		}
 	}
+
+ <br><br>
 
 Agora vamos focar na Criação da camada de API
 
