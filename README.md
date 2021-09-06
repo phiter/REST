@@ -1155,8 +1155,466 @@ criar a class 20190503042709_Initial.cs
 		}
 	}
 
- <br><br>
+<br><br>
 
 Agora vamos focar na Criação da camada de API
 
-	A camada de acesso a dados e negocio ate entao foram feita surpeficialmente visando o foco na camada da aplicação
+	A camada de acesso a dados e negocio foram feita surpeficialmente visando o foco na camada da aplicação
+
+blank Solution 'MinhaApiCompleta' >
+
+	Add New Project
+
+ASP.NET Core Web Aplication
+	
+	DevIo.Api
+	C:\Users\Alfredo\source\repos\API\src\DevIO.Api
+
+create, escolher o templete
+
+	API
+	changer > autentication
+
+implementar o relacioanmentos das camadas
+
+	DevIo.API> Depedencias > botao direito > AddReference
+
+Reference Manager - DevIo.API
+
+	selecionar 
+		DevIo.Bunsiness
+		DevIo.Data
+	ok
+
+DevIo.API> > botao direito >
+	
+	Set as StaupUp Project
+
+DevIo.API> > botao direito > Criar pasta ViewModel
+
+	criar class FornercedorViewModel.cs
+
+FornercedorViewModel.cs
+
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel.DataAnnotations;
+
+	namespace DevIO.Api.ViewModels
+	{
+		public class FornecedorViewModel
+		{
+			[Key]
+			public Guid Id { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+			public string Nome { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(14, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 11)]
+			public string Documento { get; set; }
+
+			public int TipoFornecedor { get; set; }
+
+			public EnderecoViewModel Endereco { get; set; }
+
+			public bool Ativo { get; set; }
+
+			public IEnumerable<ProdutoViewModel> Produtos { get; set; }
+		}
+	}
+
+EnderecoViewModel.cs
+
+	using System;
+	using System.ComponentModel.DataAnnotations;
+
+	namespace DevIO.Api.ViewModels
+	{
+		public class EnderecoViewModel
+		{
+			[Key]
+			public Guid Id { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(200, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+			public string Logradouro { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(50, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 1)]
+			public string Numero { get; set; }
+
+			public string Complemento { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+			public string Bairro { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(8, ErrorMessage = "O campo {0} precisa ter {1} caracteres", MinimumLength = 8)]
+			public string Cep { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+			public string Cidade { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(50, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+			public string Estado { get; set; }
+
+			public Guid FornecedorId { get; set; }
+		}
+	}
+
+ProdutoViewModel.cs
+
+	using System;
+	using System.ComponentModel.DataAnnotations;
+
+	namespace DevIO.Api.ViewModels
+	{
+		public class ProdutoViewModel
+		{
+			[Key]
+			public Guid Id { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+
+			public Guid FornecedorId { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(200, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+			public string Nome { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(1000, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+			public string Descricao { get; set; }
+
+			public string ImagemUpload { get; set; }
+
+			public string Imagem { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			public decimal Valor { get; set; }
+
+			[ScaffoldColumn(false)]
+			public DateTime DataCadastro { get; set; }
+
+			public bool Ativo { get; set; }
+
+			[ScaffoldColumn(false)]
+			public string NomeFornecedor { get; set; }
+		}
+	}
+
+ProdutoImagemViewModel.cs
+
+	using System;
+	using System.ComponentModel.DataAnnotations;
+	using Microsoft.AspNetCore.Http;
+
+	namespace DevIO.Api.ViewModels
+	{
+		//[ModelBinder(typeof(JsonWithFilesFormDataModelBinder), Name = "produto")]
+		public class ProdutoImagemViewModel
+		{
+			[Key]
+			public Guid Id { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+
+			public Guid FornecedorId { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(200, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+			public string Nome { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(1000, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+			public string Descricao { get; set; }
+
+			public IFormFile ImagemUpload { get; set; }
+
+			public string Imagem { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			public decimal Valor { get; set; }
+
+			[ScaffoldColumn(false)]
+			public DateTime DataCadastro { get; set; }
+
+			public bool Ativo { get; set; }
+
+			[ScaffoldColumn(false)]
+			public string NomeFornecedor { get; set; }
+		}
+	}
+	
+UserViewModel.cs
+
+	using System.Collections.Generic;
+	using System.ComponentModel.DataAnnotations;
+
+	namespace DevIO.Api.ViewModels
+	{
+		public class RegisterUserViewModel
+		{
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[EmailAddress(ErrorMessage = "O campo {0} está em formato inválido")]
+			public string Email { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 6)]
+			public string Password { get; set; }
+
+			[Compare("Password", ErrorMessage = "As senhas não conferem.")]
+			public string ConfirmPassword { get; set; }
+		}
+
+		public class LoginUserViewModel
+		{
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[EmailAddress(ErrorMessage = "O campo {0} está em formato inválido")]
+			public string Email { get; set; }
+
+			[Required(ErrorMessage = "O campo {0} é obrigatório")]
+			[StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 6)]
+			public string Password { get; set; }
+		}
+
+		public class UserTokenViewModel
+		{
+			public string Id { get; set; }
+			public string Email { get; set; }
+			public IEnumerable<ClaimViewModel> Claims { get; set; }
+		}
+
+		public class LoginResponseViewModel
+		{
+			public string AccessToken { get; set; }
+			public double ExpiresIn { get; set; }
+			public UserTokenViewModel UserToken { get; set; }
+		}
+
+		public class ClaimViewModel
+		{
+			public string Value { get; set; }
+			public string Type { get; set; }
+		}
+	}
+
+DevIo.API > Criar pasta Controllers
+
+	Criar classa MainController.cs
+
+MainController.cs
+
+	using System;
+	using System.Linq;
+	using DevIO.Business.Intefaces;
+	using DevIO.Business.Notificacoes;
+	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+	namespace DevIO.Api.Controllers
+	{
+		[ApiController]
+		public abstract class MainController : ControllerBase
+		{
+			private readonly INotificador _notificador;
+			public readonly IUser AppUser;
+
+			protected Guid UsuarioId { get; set; }
+			protected bool UsuarioAutenticado { get; set; }
+
+			protected MainController(INotificador notificador, 
+									 IUser appUser)
+			{
+				_notificador = notificador;
+				AppUser = appUser;
+
+				if (appUser.IsAuthenticated())
+				{
+					UsuarioId = appUser.GetUserId();
+					UsuarioAutenticado = true;
+				}
+			}
+
+			protected bool OperacaoValida()
+			{
+				return !_notificador.TemNotificacao();
+			}
+
+			protected ActionResult CustomResponse(object result = null)
+			{
+				if (OperacaoValida())
+				{
+					return Ok(new
+					{
+						success = true,
+						data = result
+					});
+				}
+
+				return BadRequest(new
+				{
+					success = false,
+					errors = _notificador.ObterNotificacoes().Select(n => n.Mensagem)
+				});
+			}
+
+			protected ActionResult CustomResponse(ModelStateDictionary modelState)
+			{
+				if(!modelState.IsValid) NotificarErroModelInvalida(modelState);
+				return CustomResponse();
+			}
+
+			protected void NotificarErroModelInvalida(ModelStateDictionary modelState)
+			{
+				var erros = modelState.Values.SelectMany(e => e.Errors);
+				foreach (var erro in erros)
+				{
+					var errorMsg = erro.Exception == null ? erro.ErrorMessage : erro.Exception.Message;
+					NotificarErro(errorMsg);
+				}
+			}
+
+			protected void NotificarErro(string mensagem)
+			{
+				_notificador.Handle(new Notificacao(mensagem));
+			}
+		}
+	}
+
+
+configurando o automap
+
+	package manager console: install-package Automap.Extensions.Microsoft.DepedencyInjection
+
+staup.cs
+
+	public static void	ConfigureServices(IServiceCollection services)
+	{
+		services.addAutoMapper(typeof(startup));
+	}
+
+
+DevIo.Api > criar pasta Configuration
+	
+	criar class AutomapperConfig.cs
+
+AutomapperConfig.cs
+
+	using AutoMapper;
+	using DevIO.Api.ViewModels;
+	using DevIO.Business.Models;
+
+	namespace DevIO.Api.Configuration
+	{
+		public class AutomapperConfig : Profile
+		{
+			public AutomapperConfig()
+			{
+				CreateMap<Fornecedor, FornecedorViewModel>().ReverseMap();
+				CreateMap<Endereco, EnderecoViewModel>().ReverseMap();
+				CreateMap<ProdutoViewModel, Produto>();
+
+				CreateMap<ProdutoImagemViewModel, Produto>().ReverseMap();
+
+				CreateMap<Produto, ProdutoViewModel>()
+					.ForMember(dest => dest.NomeFornecedor, opt => opt.MapFrom(src => src.Fornecedor.Nome));
+			}
+		}
+	}
+
+injetar o automap por depedencia e injetar no construtor  FornecedorController.cs
+
+	 private readonly IMapper _mapper;
+
+        public FornecedoresController(IFornecedorRepository fornecedorRepository, 
+                                      IMapper mapper, 
+                                      IFornecedorService fornecedorService,
+                                      INotificador notificador, 
+                                      IEnderecoRepository enderecoRepository,
+                                      IUser user) : base(notificador, user)
+        {
+            _fornecedorRepository = fornecedorRepository;
+            _mapper = mapper;
+            _fornecedorService = fornecedorService;
+            _enderecoRepository = enderecoRepository;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
+        {
+            return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
+        }
+
+	
+criar a class DependencyInjectionConfig.cs
+
+	using DevIO.Api.Extensions;
+	using DevIO.Business.Intefaces;
+	using DevIO.Business.Notificacoes;
+	using DevIO.Business.Services;
+	using DevIO.Data.Context;
+	using DevIO.Data.Repository;
+	using Microsoft.AspNetCore.Http;
+	using Microsoft.Extensions.DependencyInjection;
+	using Microsoft.Extensions.Options;
+	using Swashbuckle.AspNetCore.SwaggerGen;
+
+	namespace DevIO.Api.Configuration
+	{
+		public static class DependencyInjectionConfig
+		{
+			public static IServiceCollection ResolveDependencies(this IServiceCollection services)
+			{
+				services.AddScoped<MeuDbContext>();
+				services.AddScoped<IProdutoRepository, ProdutoRepository>();
+				services.AddScoped<IFornecedorRepository, FornecedorRepository>();
+				services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+
+				services.AddScoped<INotificador, Notificador>();
+				services.AddScoped<IFornecedorService, FornecedorService>();
+				services.AddScoped<IProdutoService, ProdutoService>();
+
+				services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+				services.AddScoped<IUser, AspNetUser>();
+
+				services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
+				return services;
+			}
+		}
+	}
+
+configurar  entinty framework e criar a conetion statup.cs 
+
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDbContext<MeuDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });        
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.ResolveDependencies();
+        }
+
+configurar a connetion na class de configuração appsettings.json
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MinhaAppMvcCore;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}
+
+
+gerar a migration para o banco 
+
+	DevIo.Data > package manager console> update-database -verbose
