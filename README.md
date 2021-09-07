@@ -21,6 +21,7 @@ soluções para possiveis erro na depedencia do front
 
  <br><br>
 
+
 criar solution blank como projeto
 	
 	project type> other > blank solution
@@ -38,7 +39,7 @@ criar as pastas no setup da aplicação (raiz do projeto contenndo a sln e sln.D
 	src
 	teste
 
-dentro da pasta src>
+dentro da pasta src> camadas já prontas para focar na API
 
 	DevIo.Bunsiness  (camada de negocio)
 	DevIo.Data		 (camada de acesso ao dados)
@@ -1155,7 +1156,7 @@ criar a class 20190503042709_Initial.cs
 		}
 	}
 
-<br><br>
+<br><br><br><br>
 
 Agora vamos focar na Criação da camada de API
 
