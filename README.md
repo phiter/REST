@@ -21,9 +21,10 @@ soluções para possiveis erro na depedencia do front
 
  <br><br>
 
-	Essa API recebe o Request da aplicação pelo verbo GET, API recebe o request e automaticamente acessando a base de dados 
-	através de uma class abstrata Repository que está sendo injetada na API através de uma interface q foi injetada no construtor da Controller.. 
-	Entao a API ler direto na camada de dados através dessa class abstrata para não precisar passar pela camada de negocio 
+	Essa API recebe o Request da aplicação pelo verbo GET, API recebe o request e 
+	automaticamente acessando a base de dados através de uma class abstrata Repository que 
+	está sendo injetada na API através de uma interface q foi injetada no construtor da Controller
+	Entao a API ler direto camada dados através dessa class abstrata p/ n precisar passar pela camada de negocio 
 	Principio do SOLID para  inversão de controle evitando assim o auto acoplamento!
 
 	Principio do SOLID para  inversão de controle evitando assim o auto acoplamento!
