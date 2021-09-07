@@ -27,9 +27,6 @@ soluções para possiveis erro na depedencia do front
 	Entao a API ler direto camada dados através dessa class abstrata p/ n precisar passar pela camada de negocio 
 	Principio do SOLID para  inversão de controle evitando assim o auto acoplamento!
 
-	Principio do SOLID para  inversão de controle evitando assim o auto acoplamento!
-	
-	
 	Retorna uma entidade de negocio convertido pelo Repository do Entity Framework e com AutoMap 
 	fazendo essa entidade virar uma  DTO (Viewmodel) para retornando em json para o client
 
