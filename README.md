@@ -1966,7 +1966,7 @@ ProdutosController.cs
 
 			#endregion
 		}
-}
+	}
 
 
 criar a class DependencyInjectionConfig.cs
@@ -1988,6 +1988,7 @@ criar a class DependencyInjectionConfig.cs
 		{
 			public static IServiceCollection ResolveDependencies(this IServiceCollection services)
 			{
+				//resolvendo q o Repository está recebendo injecção de depedencia do MeuDbContext
 				services.AddScoped<MeuDbContext>();
 				services.AddScoped<IProdutoRepository, ProdutoRepository>();
 				services.AddScoped<IFornecedorRepository, FornecedorRepository>();
@@ -2007,29 +2008,28 @@ criar a class DependencyInjectionConfig.cs
 		}
 	}
 
-configurar  entinty framework e criar a conetion statup.cs 
+configurar o entinty framework e criar a connection na entidade Statup.cs 
 
+  public void ConfigureServices(IServiceCollection services)
+  {
+	 //adicionando o extention metodo do entity framework e as options pegando o configurantion passando a string de conexao
+     services.AddDbContext<MeuDbContext>(options =>
+     {
+        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+     });        
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddDbContext<MeuDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });        
+     services.AddAutoMapper(typeof(Startup));
 
-            services.AddAutoMapper(typeof(Startup));
+     services.ResolveDependencies();
+  }
 
-            services.ResolveDependencies();
-        }
-
-configurar a connetion na class de configuração appsettings.json
+configurar a connection na class de configuração appsettings.json
 
 {
   "ConnectionStrings": {
     "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MinhaAppMvcCore;Trusted_Connection=True;MultipleActiveResultSets=true"
   }
 }
-
 
 gerar a migration para o banco 
 
