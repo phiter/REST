@@ -24,7 +24,7 @@ soluções para possiveis erro na depedencia do front
 	Essa API recebe o Request da aplicação pelo verbo GET, API recebe o request e 
 	automaticamente acessando a base de dados através de uma class abstrata Repository que 
 	está sendo injetada na API através de uma interface q foi injetada no construtor da Controller
-	API ler direto camada dados através dessa class abstrata p/ n precisar passar pela camada de negocio 
+	A API ler direto camada dados através dessa class abstrata p/ n precisar passar pela camada de negocio 
 	Principio do SOLID para  inversão de controle evitando assim o auto acoplamento!
 
 	Retorna uma entidade de negocio convertido pelo Repository do Entity Framework e com AutoMap 
@@ -1199,9 +1199,9 @@ DevIo.API> > botao direito >
 	
 	Set as StaupUp Project
 
-DevIo.API> > botao direito > Criar pasta ViewModel
+Implementando as DTOs > DevIo.API> > botao direito > Criar pasta ViewModels
 
-	criar class FornercedorViewModel.cs
+	criar as class FornercedorViewModel.cs
 
 FornercedorViewModel.cs
 
@@ -1413,9 +1413,37 @@ UserViewModel.cs
 		}
 	}
 
+
 DevIo.API > Criar pasta Controllers
 
-	Criar classa MainController.cs
+	Criar class Abastrata MainController.cs  baseada nas ViewModels
+	
+
+Class Abastrata MainController.cs
+
+	//ao criar uma class abstrata a mesma só pode ser herdada e não implementada	
+	public abstract class MainController : ControllerBase
+
+implementando rota MainController.cs
+
+	[ApiController]
+	public abstract class MainController : ControllerBase{}
+
+	[Route("api/fornecedores")]
+	public class FornecedoresController : MainController{}
+
+
+implementando metodo ObterTodos MainController.cs
+
+	[Route("api/fornecedores")]
+	public class FornecedoresController : MainController{
+
+	public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
+	{
+
+		return Ok();
+	}}
+
 
 MainController.cs
 
@@ -1496,6 +1524,45 @@ MainController.cs
 		}
 	}
 
+criar class FornecedorRepository.cs para desacolplamento
+
+	public class FornecedoresController : MainController{}
+
+injetar o repositorio FornecedorRepository.cs atraves da injeção de depedencia na FornecedorRepository.cs
+	
+	[Route("api/fornecedores")]
+	public class FornecedoresController : MainController
+	{
+		//injetando o repositorio
+		private readonly IFornecedorRepository _fornecedorRepository;
+		private readonly IFornecedorService _fornecedorService;
+		private readonly IEnderecoRepository _enderecoRepository;
+		private readonly IMapper _mapper;
+
+		//passando a injeçao de depecia no construtor
+		public FornecedoresController(IFornecedorRepository fornecedorRepository, 
+		{	
+			_fornecedorRepository = fornecedorRepository;				
+		}	
+	 }
+
+criar uma variavel para passar
+
+	public async Task<FornecedorViewModel>ObterPorId()
+	{
+		var fornecedor = await _fonercedorRepository.ObterTodos();
+
+		return fornecedor;
+	}
+
+usar automap
+
+public async Task<ActionResult<FornecedorViewModel>> ObterPorId()
+	{
+		var fornecedor = await _fonercedorRepository.ObterTodos();
+
+		return fornecedor;
+	}
 
 configurando o automap
 
@@ -1507,7 +1574,6 @@ staup.cs
 	{
 		services.addAutoMapper(typeof(startup));
 	}
-
 
 DevIo.Api > criar pasta Configuration
 	
@@ -1525,6 +1591,7 @@ AutomapperConfig.cs
 		{
 			public AutomapperConfig()
 			{
+				//DE forncedor PARA fornecedorviewModel
 				CreateMap<Fornecedor, FornecedorViewModel>().ReverseMap();
 				CreateMap<Endereco, EnderecoViewModel>().ReverseMap();
 				CreateMap<ProdutoViewModel, Produto>();
@@ -1561,7 +1628,347 @@ injetar o automap por depedencia e injetar no construtor  FornecedorController.c
             return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
         }
 
-	
+FornecedoresController.cs
+
+	using System;
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
+	using AutoMapper;
+	using DevIO.Api.Controllers;
+	using DevIO.Api.Extensions;
+	using DevIO.Api.ViewModels;
+	using DevIO.Business.Intefaces;
+	using DevIO.Business.Models;
+	using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Mvc;
+
+	namespace DevIO.Api.V1.Controllers
+	{
+		[Authorize]
+		[ApiVersion("1.0")]
+		[Route("api/v{version:apiVersion}/fornecedores")]
+		public class FornecedoresController : MainController
+		{
+			private readonly IFornecedorRepository _fornecedorRepository;
+			private readonly IFornecedorService _fornecedorService;
+			private readonly IEnderecoRepository _enderecoRepository;
+			private readonly IMapper _mapper;
+
+			public FornecedoresController(IFornecedorRepository fornecedorRepository, 
+										  IMapper mapper, 
+										  IFornecedorService fornecedorService,
+										  INotificador notificador, 
+										  IEnderecoRepository enderecoRepository,
+										  IUser user) : base(notificador, user)
+			{
+				_fornecedorRepository = fornecedorRepository;
+				_mapper = mapper;
+				_fornecedorService = fornecedorService;
+				_enderecoRepository = enderecoRepository;
+			}
+
+			[AllowAnonymous]
+			[HttpGet]
+			public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
+			{
+				return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
+			}
+
+			[HttpGet("{id:guid}")]
+			public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
+			{
+				var fornecedor = await ObterFornecedorProdutosEndereco(id);
+
+				if (fornecedor == null) return NotFound();
+
+				return fornecedor;
+			}
+
+			[ClaimsAuthorize("Fornecedor","Adicionar")]
+			[HttpPost]
+			public async Task<ActionResult<FornecedorViewModel>> Adicionar(FornecedorViewModel fornecedorViewModel)
+			{
+				if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+				await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
+
+				return CustomResponse(fornecedorViewModel);
+			}
+
+			[ClaimsAuthorize("Fornecedor", "Atualizar")]
+			[HttpPut("{id:guid}")]
+			public async Task<ActionResult<FornecedorViewModel>> Atualizar(Guid id, FornecedorViewModel fornecedorViewModel)
+			{
+				if (id != fornecedorViewModel.Id)
+				{
+					NotificarErro("O id informado não é o mesmo que foi passado na query");
+					return CustomResponse(fornecedorViewModel);
+				}
+
+				if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+				await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorViewModel));
+
+				return CustomResponse(fornecedorViewModel);
+			}
+
+			[ClaimsAuthorize("Fornecedor", "Excluir")]
+			[HttpDelete("{id:guid}")]
+			public async Task<ActionResult<FornecedorViewModel>> Excluir(Guid id)
+			{
+				var fornecedorViewModel = await ObterFornecedorEndereco(id);
+
+				if (fornecedorViewModel == null) return NotFound();
+
+				await _fornecedorService.Remover(id);
+
+				return CustomResponse(fornecedorViewModel);
+			}
+
+			[HttpGet("endereco/{id:guid}")]
+			public async Task<EnderecoViewModel> ObterEnderecoPorId(Guid id)
+			{
+				return _mapper.Map<EnderecoViewModel>(await _enderecoRepository.ObterPorId(id));
+			}
+
+			[ClaimsAuthorize("Fornecedor", "Atualizar")]
+			[HttpPut("endereco/{id:guid}")]
+			public async Task<IActionResult> AtualizarEndereco(Guid id, EnderecoViewModel enderecoViewModel)
+			{
+				if (id != enderecoViewModel.Id)
+				{
+					NotificarErro("O id informado não é o mesmo que foi passado na query");
+					return CustomResponse(enderecoViewModel);
+				}
+
+				if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+				await _fornecedorService.AtualizarEndereco(_mapper.Map<Endereco>(enderecoViewModel));
+
+				return CustomResponse(enderecoViewModel);
+			}
+
+			private async Task<FornecedorViewModel> ObterFornecedorProdutosEndereco(Guid id)
+			{
+				return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterFornecedorProdutosEndereco(id));
+			}
+
+			private async Task<FornecedorViewModel> ObterFornecedorEndereco(Guid id)
+			{
+				return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterFornecedorEndereco(id));
+			}
+		}
+	}
+
+ProdutosController.cs
+
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Threading.Tasks;
+	using AutoMapper;
+	using DevIO.Api.Controllers;
+	using DevIO.Api.Extensions;
+	using DevIO.Api.ViewModels;
+	using DevIO.Business.Intefaces;
+	using DevIO.Business.Models;
+	using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Http;
+	using Microsoft.AspNetCore.Mvc;
+
+	namespace DevIO.Api.V1.Controllers
+	{
+		[Authorize]
+		[ApiVersion("1.0")]
+		[Route("api/v{version:apiVersion}/produtos")]
+		public class ProdutosController : MainController
+		{
+			private readonly IProdutoRepository _produtoRepository;
+			private readonly IProdutoService _produtoService;
+			private readonly IMapper _mapper;
+
+			public ProdutosController(INotificador notificador, 
+									  IProdutoRepository produtoRepository, 
+									  IProdutoService produtoService, 
+									  IMapper mapper,
+									  IUser user) : base(notificador, user)
+			{
+				_produtoRepository = produtoRepository;
+				_produtoService = produtoService;
+				_mapper = mapper;
+			}
+
+			[HttpGet]
+			public async Task<IEnumerable<ProdutoViewModel>> ObterTodos()
+			{
+				return _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores());
+			}
+
+			[HttpGet("{id:guid}")]
+			public async Task<ActionResult<ProdutoViewModel>> ObterPorId(Guid id)
+			{
+				var produtoViewModel = await ObterProduto(id);
+
+				if (produtoViewModel == null) return NotFound();
+
+				return produtoViewModel;
+			}
+
+			[ClaimsAuthorize("Produto", "Adicionar")]
+			[HttpPost]
+			public async Task<ActionResult<ProdutoViewModel>> Adicionar(ProdutoViewModel produtoViewModel)
+			{
+				if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+				var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
+				if (!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
+				{
+					return CustomResponse(produtoViewModel);
+				}
+
+				produtoViewModel.Imagem = imagemNome;
+				await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+
+				return CustomResponse(produtoViewModel);
+			}
+
+			[ClaimsAuthorize("Produto", "Atualizar")]
+			[HttpPut("{id:guid}")]
+			public async Task<IActionResult> Atualizar(Guid id, ProdutoViewModel produtoViewModel)
+			{
+				if (id != produtoViewModel.Id)
+				{
+					NotificarErro("Os ids informados não são iguais!");
+					return CustomResponse();
+				}
+
+				var produtoAtualizacao = await ObterProduto(id);
+
+				if (string.IsNullOrEmpty(produtoViewModel.Imagem))
+					produtoViewModel.Imagem = produtoAtualizacao.Imagem;
+
+				if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+				if (produtoViewModel.ImagemUpload != null)
+				{
+					var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
+					if (!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
+					{
+						return CustomResponse(ModelState);
+					}
+
+					produtoAtualizacao.Imagem = imagemNome;
+				}
+
+				produtoAtualizacao.FornecedorId = produtoViewModel.FornecedorId;
+				produtoAtualizacao.Nome = produtoViewModel.Nome;
+				produtoAtualizacao.Descricao = produtoViewModel.Descricao;
+				produtoAtualizacao.Valor = produtoViewModel.Valor;
+				produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+
+				await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+
+				return CustomResponse(produtoViewModel);
+			}
+
+			[ClaimsAuthorize("Produto", "Excluir")]
+			[HttpDelete("{id:guid}")]
+			public async Task<ActionResult<ProdutoViewModel>> Excluir(Guid id)
+			{
+				var produto = await ObterProduto(id);
+
+				if (produto == null) return NotFound();
+
+				await _produtoService.Remover(id);
+
+				return CustomResponse(produto);
+			}
+
+			private async Task<ProdutoViewModel> ObterProduto(Guid id)
+			{
+				return _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoFornecedor(id));
+			}
+
+			private bool UploadArquivo(string arquivo, string imgNome)
+			{
+				if (string.IsNullOrEmpty(arquivo))
+				{
+					NotificarErro("Forneça uma imagem para este produto!");
+					return false;
+				}
+
+				var imageDataByteArray = Convert.FromBase64String(arquivo);
+
+				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imgNome);
+
+				if (System.IO.File.Exists(filePath))
+				{
+					NotificarErro("Já existe um arquivo com este nome!");
+					return false;
+				}
+
+				System.IO.File.WriteAllBytes(filePath, imageDataByteArray);
+
+				return true;
+			}
+
+			#region UploadAlternativo
+
+			[ClaimsAuthorize("Produto", "Adicionar")]
+			[HttpPost("Adicionar")]
+			public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo(ProdutoImagemViewModel produtoViewModel)
+			{
+				if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+				var imgPrefixo = Guid.NewGuid() + "_";
+				if (!await UploadArquivoAlternativo(produtoViewModel.ImagemUpload, imgPrefixo))
+				{
+					return CustomResponse(ModelState);
+				}
+
+				produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+				await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+
+				return CustomResponse(produtoViewModel);
+			}
+        
+			[RequestSizeLimit(40000000)]
+			//[DisableRequestSizeLimit]
+			[HttpPost("imagem")]
+			public ActionResult AdicionarImagem(IFormFile file)
+			{
+				return Ok(file);
+			}
+
+			private async Task<bool> UploadArquivoAlternativo(IFormFile arquivo, string imgPrefixo)
+			{
+				if (arquivo == null || arquivo.Length == 0)
+				{
+					NotificarErro("Forneça uma imagem para este produto!");
+					return false;
+				}
+
+				var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imgPrefixo + arquivo.FileName);
+
+				if (System.IO.File.Exists(path))
+				{
+					NotificarErro("Já existe um arquivo com este nome!");
+					return false;
+				}
+
+				using (var stream = new FileStream(path, FileMode.Create))
+				{
+					await arquivo.CopyToAsync(stream);
+				}
+
+				return true;
+			}
+
+			#endregion
+		}
+}
+
+
 criar a class DependencyInjectionConfig.cs
 
 	using DevIO.Api.Extensions;
@@ -1627,3 +2034,4 @@ configurar a connetion na class de configuração appsettings.json
 gerar a migration para o banco 
 
 	DevIo.Data > package manager console> update-database -verbose
+
