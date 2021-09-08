@@ -2034,4 +2034,3 @@ configurar a connection na class de configuração appsettings.json
 gerar a migration para o banco 
 
 	DevIo.Data > package manager console> update-database -verbose
-
