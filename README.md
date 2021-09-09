@@ -2032,6 +2032,76 @@ configurar a connection na class de configuração appsettings.json
 }
 
 gerar a migration para o banco 
-	
+
 	baixar depedentia EntityFrameworkTools
 	DevIo.Data > package manager console> update-database -Context MeuDbContext -verbose
+
+configurando a controller para o processo de CRUD FornecedoresController.cs
+
+		public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
+        {
+            return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
+        }
+
+FornecedoresController.cs
+
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
+        {
+			//recebendo o metodo
+            var fornecedor = await ObterFornecedorProdutosEndereco();
+
+            return fornecedor;
+        }
+
+encapsular o metodo da FornecedoresController.cs
+
+		public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
+        {
+            return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
+        }
+
+FornecedoresController.cs
+
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
+        {
+			// recebendo o metodo
+            var fornecedor = await ObterFornecedorProdutosEndereco(id);
+			if (fornecedor == null) return NotFound();
+            return fornecedor;
+        }
+
+implementendo o registro de novo fornecedores FornecedoresController.cs
+
+        public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
+        {
+            var fornecedor = await ObterFornecedorProdutosEndereco(id);
+
+            if (fornecedor == null) return NotFound();
+
+            return fornecedor;
+        }
+
+implementendo o registro de novo fornecedores FornecedoresController.cs
+
+	   [HttpGet("{id:guid}")]
+        public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
+        {
+            var fornecedor = await ObterFornecedorProdutosEndereco(id);
+
+            if (fornecedor == null) return NotFound();
+
+            return fornecedor;
+        }
+
+        [ClaimsAuthorize("Fornecedor","Adicionar")]
+        [HttpPost]
+        public async Task<ActionResult<FornecedorViewModel>> Adicionar(FornecedorViewModel fornecedorViewModel)
+        {
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
+
+            return CustomResponse(fornecedorViewModel);
+        }
