@@ -47,7 +47,7 @@ criar as pastas no setup da aplicação (raiz do projeto contenndo a sln e sln.D
 	src
 	teste
 
-dentro da pasta src> camadas já prontas para focar na API
+criar camadas dentro da pasta src> reaproveitando as camadas de projetos que realizei e estão nesse repositorio para focar na API
 
 	DevIo.Bunsiness  (camada de negocio)
 	DevIo.Data		 (camada de acesso ao dados)
