@@ -1628,6 +1628,119 @@ injetar o automap por depedencia e injetar no construtor  FornecedorController.c
             return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
         }
 
+criar a class DependencyInjectionConfig.cs
+
+	using DevIO.Api.Extensions;
+	using DevIO.Business.Intefaces;
+	using DevIO.Business.Notificacoes;
+	using DevIO.Business.Services;
+	using DevIO.Data.Context;
+	using DevIO.Data.Repository;
+	using Microsoft.AspNetCore.Http;
+	using Microsoft.Extensions.DependencyInjection;
+	using Microsoft.Extensions.Options;
+	using Swashbuckle.AspNetCore.SwaggerGen;
+
+	namespace DevIO.Api.Configuration
+	{
+		public static class DependencyInjectionConfig
+		{
+			public static IServiceCollection ResolveDependencies(this IServiceCollection services)
+			{
+				//resolvendo q o Repository está recebendo injecção de depedencia do MeuDbContext
+				services.AddScoped<MeuDbContext>();
+				services.AddScoped<IProdutoRepository, ProdutoRepository>();
+				services.AddScoped<IFornecedorRepository, FornecedorRepository>();
+				services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+
+				services.AddScoped<INotificador, Notificador>();
+				services.AddScoped<IFornecedorService, FornecedorService>();
+				services.AddScoped<IProdutoService, ProdutoService>();
+
+				services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+				services.AddScoped<IUser, AspNetUser>();
+
+				services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
+				return services;
+			}
+		}
+	}
+
+configurar o entinty framework e criar a connection na entidade Statup.cs 
+
+  public void ConfigureServices(IServiceCollection services)
+  {
+	 //adicionando o extention metodo do entity framework e as options pegando o configurantion passando a string de conexao
+     services.AddDbContext<MeuDbContext>(options =>
+     {
+        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+     });        
+
+     services.AddAutoMapper(typeof(Startup));
+
+     services.ResolveDependencies();
+  }
+
+configurar a connection na class de configuração appsettings.json
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MinhaAppMvcCore;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}
+
+
+fornecedorController.cs
+
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
+	using AutoMapper;
+	using DevIO.Api.ViewModels;
+	using DevIO.Business.Intefaces;
+	using Microsoft.AspNetCore.Mvc;
+
+    namespace DevIO.Api.V1.Controllers
+	{
+		[Route("api/fornecedores")]
+		public class FornecedoresController : MainController
+		{
+			private readonly IFornecedorRepository _fornecedorRepository;
+			private readonly IMapper _mapper;
+
+			public FornecedoresController(IFornecedorRepository fornecedorRepository, 
+										  IMapper mapper, 
+			{
+				_fornecedorRepository = fornecedorRepository;
+				_mapper = mapper;
+			}
+
+		public async Task<IEnumerable<FornecedorViewModel>>ObterPorId()
+			{
+				var fornecedor = _mapper.Map<IEnumerable<FornecedorViewModel>>(await_fornecedorRepository.ObterTodos());
+
+				return fornecedor;
+			}
+
+
+
+gerar a migration para o banco 
+
+	baixar depedentia EntityFrameworkTools
+	DevIo.Data > package manager console> update-database -Context MeuDbContext -verbose
+
+configurando a controller para o processo de CRUD FornecedoresController.cs
+
+		public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
+        {
+            return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
+        }
+
+
+
+
+
+
 FornecedoresController.cs
 
 	using System;
@@ -1759,6 +1872,7 @@ FornecedoresController.cs
 			}
 		}
 	}
+
 
 ProdutosController.cs
 
@@ -1967,141 +2081,3 @@ ProdutosController.cs
 			#endregion
 		}
 	}
-
-
-criar a class DependencyInjectionConfig.cs
-
-	using DevIO.Api.Extensions;
-	using DevIO.Business.Intefaces;
-	using DevIO.Business.Notificacoes;
-	using DevIO.Business.Services;
-	using DevIO.Data.Context;
-	using DevIO.Data.Repository;
-	using Microsoft.AspNetCore.Http;
-	using Microsoft.Extensions.DependencyInjection;
-	using Microsoft.Extensions.Options;
-	using Swashbuckle.AspNetCore.SwaggerGen;
-
-	namespace DevIO.Api.Configuration
-	{
-		public static class DependencyInjectionConfig
-		{
-			public static IServiceCollection ResolveDependencies(this IServiceCollection services)
-			{
-				//resolvendo q o Repository está recebendo injecção de depedencia do MeuDbContext
-				services.AddScoped<MeuDbContext>();
-				services.AddScoped<IProdutoRepository, ProdutoRepository>();
-				services.AddScoped<IFornecedorRepository, FornecedorRepository>();
-				services.AddScoped<IEnderecoRepository, EnderecoRepository>();
-
-				services.AddScoped<INotificador, Notificador>();
-				services.AddScoped<IFornecedorService, FornecedorService>();
-				services.AddScoped<IProdutoService, ProdutoService>();
-
-				services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-				services.AddScoped<IUser, AspNetUser>();
-
-				services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-
-				return services;
-			}
-		}
-	}
-
-configurar o entinty framework e criar a connection na entidade Statup.cs 
-
-  public void ConfigureServices(IServiceCollection services)
-  {
-	 //adicionando o extention metodo do entity framework e as options pegando o configurantion passando a string de conexao
-     services.AddDbContext<MeuDbContext>(options =>
-     {
-        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-     });        
-
-     services.AddAutoMapper(typeof(Startup));
-
-     services.ResolveDependencies();
-  }
-
-configurar a connection na class de configuração appsettings.json
-
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MinhaAppMvcCore;Trusted_Connection=True;MultipleActiveResultSets=true"
-  }
-}
-
-gerar a migration para o banco 
-
-	baixar depedentia EntityFrameworkTools
-	DevIo.Data > package manager console> update-database -Context MeuDbContext -verbose
-
-configurando a controller para o processo de CRUD FornecedoresController.cs
-
-		public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
-        {
-            return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
-        }
-
-FornecedoresController.cs
-
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
-        {
-			//recebendo o metodo
-            var fornecedor = await ObterFornecedorProdutosEndereco();
-
-            return fornecedor;
-        }
-
-encapsular o metodo da FornecedoresController.cs
-
-		public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
-        {
-            return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
-        }
-
-FornecedoresController.cs
-
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
-        {
-			// recebendo o metodo
-            var fornecedor = await ObterFornecedorProdutosEndereco(id);
-			if (fornecedor == null) return NotFound();
-            return fornecedor;
-        }
-
-implementendo o registro de novo fornecedores FornecedoresController.cs
-
-        public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
-        {
-            var fornecedor = await ObterFornecedorProdutosEndereco(id);
-
-            if (fornecedor == null) return NotFound();
-
-            return fornecedor;
-        }
-
-implementendo o registro de novo fornecedores FornecedoresController.cs
-
-	   [HttpGet("{id:guid}")]
-        public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
-        {
-            var fornecedor = await ObterFornecedorProdutosEndereco(id);
-
-            if (fornecedor == null) return NotFound();
-
-            return fornecedor;
-        }
-
-        [ClaimsAuthorize("Fornecedor","Adicionar")]
-        [HttpPost]
-        public async Task<ActionResult<FornecedorViewModel>> Adicionar(FornecedorViewModel fornecedorViewModel)
-        {
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
-
-            await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
-
-            return CustomResponse(fornecedorViewModel);
-        }
