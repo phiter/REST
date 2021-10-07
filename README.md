@@ -76,7 +76,7 @@ DevIo.Data
 
 	criada a pasta Context contendo as entidades responsavel por :
 	consultar um banco de dados e agrupar as alterações que serão gravadas
-	MeuDbContext : contexto do efcore contendo as tabelas referente as entidade da models
+	MeuDbContext : dbContext contexto do efcore contendo as tabelas referente as entidade da models
 	
 	criada a pasta Mappings contendo as entidades responsavel por :
 	Mapear as tabelas para configurar o mapeamento do banco de dados 
