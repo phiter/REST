@@ -20,7 +20,7 @@ soluções para possiveis erro na depedencia do front
 
  <br>
  
-	Essa API recebe Request automaticamente da aplicação pelo verbo GET, acessando a base de dados 
+ 	Essa API recebe Request automaticamente da aplicação pelo verbo GET, acessando a base de dados 
 	através da class abstrata Repository que está sendo injetada através de uma interface injetada 
 	no construtor da Controller p/ n precisar passar pela camada de negocio, evitando autoacoplamento 
 
@@ -48,17 +48,44 @@ criar as pastas no setup da aplicação (raiz do projeto contenndo a sln e sln.D
 criar camadas dentro da pasta src> reaproveitando as camadas de projetos que realizei e estão nesse repositorio para focar na API
 
 	DevIo.Bunsiness  (camada de negocio)
-	DevIo.Data		 (camada de acesso ao dados)
+	DevIo.Data	 (camada de acesso ao dados)
+	DevIo.API	 (camada de aplicação)
 
-Solution 'MinhaApiCompleta' 
+Criar as camadas na Solution 'MinhaApiCompleta' 
 
 	criar a camada DevIo.Bunsiness
 	criar a camada DevIo.Data
+	criar a camada DevIo.API
 
 DevIo.Bunsiness
 	
-	cria a pa pasta Models
+	criada a pasta Models responsavel por :
+	casdastrar forncedor.cs que possui relacionamento com as entidades produto.cs, endereco.cs
 	
+	criada a pasta Notifation responsavel por:
+	notificacao.cs entidade mandar notificaçao atravessando todas as camadas para chegar ate a api
+	
+	criada a pasta Interface contendo as entidades responsavel por:
+	IEnderecoRepository.cs interage e apresenta dados ao usuário atraves de injeçao de depedencia
+	
+	criada a pasta Service responsavel pelas regras de negocio:
+	produtoService.cs entidade contendo regra de negocio para cadastra novos produtos
+	fornecedor.cs entidade contendo regra de negocio para cadastra novos fornecedores
+
+DevIo.Data
+
+	criada a pasta Context contendo as entidades responsavel por :
+	consultar um banco de dados e agrupar as alterações que serão gravadas
+	MeuDbContext : contexto do efcore contendo as tabelas referente as entidade da models
+	
+	criada a pasta Mappings contendo as entidades responsavel por :
+	Mapear as tabelas para configurar o mapeamento do banco de dados 
+	
+	criada a pasta Repository contendo as entidades responsavel por :
+	Implementação dos repositorios genericos e especializados
+
+	
+
 criar a class Fornecedor.cs
 
 	using System;
