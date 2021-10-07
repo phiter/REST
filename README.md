@@ -14,21 +14,18 @@ soluções para possiveis erro na depedencia do front
 
     npm cache clean --force
     npm pkill node
-    npm install
-  
+    npm install  
   
  app em : https://github.com/alfredo1995/SPA7
 
  <br><br>
 
-	Essa API recebe o Request da aplicação pelo verbo GET, API recebe o request e 
-	automaticamente acessando a base de dados através de uma class abstrata Repository que 
-	está sendo injetada na API através de uma interface q foi injetada no construtor da Controller
-	API ler direto na camada de dados através de uma class abstrata Repository
-	p/ n precisar passar pela camada de negocio, evitando assim o autoacoplamento 
+	Essa API recebe Request automaticamente da aplicação pelo verbo GET, acessando a base de dados 
+	através da class abstrata Repository que está sendo injetada através de uma interface injetada 
+	no construtor da Controller p/ n precisar passar pela camada de negocio, evitando autoacoplamento 
 
 	Retorna uma entidade de negocio convertido pelo Repository do Entity Framework e com AutoMap 
-	fazendo essa entidade virar uma  DTO (Viewmodel) para retornando em json para o client
+	fazendo essa entidade virar uma DTO (Viewmodel) rertonando em json para o client
 
 criar solution blank como projeto
 	
