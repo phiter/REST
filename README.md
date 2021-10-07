@@ -18,14 +18,14 @@ soluções para possiveis erro na depedencia do front
   
  app em : https://github.com/alfredo1995/SPA7
 
- <br><br>
-
+ <br>
 	Essa API recebe Request automaticamente da aplicação pelo verbo GET, acessando a base de dados 
 	através da class abstrata Repository que está sendo injetada através de uma interface injetada 
 	no construtor da Controller p/ n precisar passar pela camada de negocio, evitando autoacoplamento 
 
 	Retorna uma entidade de negocio convertido pelo Repository do Entity Framework e com AutoMap 
 	fazendo essa entidade virar uma DTO (Viewmodel) rertonando em json para o client
+<br>
 
 criar solution blank como projeto
 	
