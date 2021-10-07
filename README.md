@@ -1201,7 +1201,7 @@ blank Solution 'MinhaApiCompleta' >
 
 	Add New Project
 
-ASP.NET Core Web Aplication
+Escolher ASP.NET Core Web Aplication
 	
 	DevIo.Api
 	C:\Users\Alfredo\source\repos\API\src\DevIO.Api
