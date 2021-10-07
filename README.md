@@ -128,8 +128,12 @@ criar a class Endereco.cs
 		}
 	}
 
+
+DevIo.Bunsiness
+
+	entidades 
 	
-Cria a class Produto.cs
+Criada a class Produto.cs
 
 	using System;
 
@@ -162,7 +166,7 @@ criar a class TipoFornecedor.cs
 		}
 	}
 
-Complementando classa Entity.cs
+Complementando class Entity.cs
 
 	using System;
 
@@ -181,7 +185,7 @@ Complementando classa Entity.cs
 
 DevIo.Bunsiness
 	
-	cria a pa pasta Notificacoes
+	criada a pasta Notificacoes
 
 criar a class Notificacoes.cs
 
@@ -374,7 +378,7 @@ criar a class ProdutoService.cs
 		}
 	}
 
-criar a class BaseService.cs
+criada a class BaseService.cs
 
 	using DevIO.Business.Intefaces;
 	using DevIO.Business.Models;
@@ -423,7 +427,7 @@ DevIo.Bunsiness
 	
 	cria a pa pasta Intefaces
 
-criar a class IEnderecoRepository.cs
+criada a class IEnderecoRepository.cs
 
 	using System;
 	using System.Threading.Tasks;
@@ -437,7 +441,7 @@ criar a class IEnderecoRepository.cs
 		}
 	}
 
-criar a class IFornecedorRepository.cs
+criada a class IFornecedorRepository.cs
 
 	using System;
 	using System.Threading.Tasks;
@@ -452,7 +456,7 @@ criar a class IFornecedorRepository.cs
 		}
 	}
 
-criar a class IFornecedorRepository.cs
+criada a class IFornecedorRepository.cs
 
 	using System;
 	using System.Threading.Tasks;
@@ -470,7 +474,7 @@ criar a class IFornecedorRepository.cs
 		}
 	}
 
-criar a class IProdutoRepository.cs
+criada a class IProdutoRepository.cs
 
 	using System;
 	using System.Collections.Generic;
@@ -487,7 +491,7 @@ criar a class IProdutoRepository.cs
 		}
 	}
 
-criar a class IProdutoService.cs
+criada a class IProdutoService.cs
 
 	using System;
 	using System.Threading.Tasks;
@@ -503,7 +507,7 @@ criar a class IProdutoService.cs
 		}
 	}
 
-criar a class IRepository.cs
+criada a class IRepository.cs
 
 	using System;
 	using System.Collections.Generic;
@@ -525,7 +529,7 @@ criar a class IRepository.cs
 		}
 	}
 
-criar a class IUser.cs
+criada a class IUser.cs
 
 	using System;
 	using System.Collections.Generic;
@@ -544,7 +548,7 @@ criar a class IUser.cs
 		}
 	}
 
-criar a class INotificador.cs
+criada a class INotificador.cs
 
 	using System.Collections.Generic;
 	using DevIO.Business.Notificacoes;
@@ -562,9 +566,9 @@ criar a class INotificador.cs
 
 DevIo.Data
 	
-	cria a pasta Context
+	criada a pasta Context
 
-criar a class MeuDbContext.cs
+criada a class MeuDbContext.cs
 
 	using System;
 	using System.Linq;
@@ -620,9 +624,9 @@ criar a class MeuDbContext.cs
 
 DevIo.Data
 	
-	cria a pa pasta Repository
+	criada a pasta Repository
 
-criar a class FornecedorRepository.cs
+criada a class FornecedorRepository.cs
 
 using System;
 using System.Threading.Tasks;
@@ -656,7 +660,7 @@ using Microsoft.EntityFrameworkCore;
 		}
 	}
 
-criar a class EnderecoRepository.cs
+criada a class EnderecoRepository.cs
 
 	using System;
 	using System.Threading.Tasks;
@@ -679,7 +683,7 @@ criar a class EnderecoRepository.cs
 		}
 	}
 
-criar a class ProdutoRepository.cs
+criada a class ProdutoRepository.cs
 
 	using System;
 	using System.Collections.Generic;
@@ -715,7 +719,7 @@ criar a class ProdutoRepository.cs
 		}
 	}
 
-criar a class Repository.cs
+criada a class Repository.cs
 
 	using System;
 	using System.Collections.Generic;
@@ -788,9 +792,9 @@ criar a class Repository.cs
 
 DevIo.Data
 	
-	cria a pasta Mapping
+	criada a pasta Mapping
 
-criar a class FornecedorMapping.cs
+criada a class FornecedorMapping.cs
 
 	using DevIO.Business.Models;
 	using Microsoft.EntityFrameworkCore;
@@ -826,7 +830,7 @@ criar a class FornecedorMapping.cs
 		}
 	}
 
-criar a class ProdutoMapping.cs
+criada a class ProdutoMapping.cs
 
 	using DevIO.Business.Models;
 	using Microsoft.EntityFrameworkCore;
@@ -857,7 +861,7 @@ criar a class ProdutoMapping.cs
 		}
 	}
 
-criar a class EnderecoMapping.cs
+criada a class EnderecoMapping.cs
 
 	using DevIO.Business.Models;
 	using Microsoft.EntityFrameworkCore;
@@ -905,7 +909,7 @@ criar a class EnderecoMapping.cs
 
 DevIo.Data
 	
-	criar as migration
+	criada as migration
 
 Habilitando Migrações
 	
