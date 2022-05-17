@@ -17,7 +17,7 @@ soluções para possiveis erro na depedencia do front
     npm install  
   
  app em : https://github.com/alfredo1995/SPA7
-
+ 
  <br>
  
  	Essa API recebe Request automaticamente da aplicação pelo verbo GET, acessando a base de dados 
