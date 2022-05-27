@@ -19,12 +19,12 @@ Um RESPONSE: Códigos de status de respostas do servidor HTTP: 100 = informaçao
 
 REST : Envio de dados com base em REST - Estado de representação do dado
 
-      CLIENTE -> DADOS -> HTTP -> SERVIDOR
+        CLIENTE -> DADOS -> HTTP -> SERVIDOR
 
-        1° CLIENTE = começa a transferir Dados
-        2° DADOS   = vai na parte do body do verbo http, transmiti os dados atraves do protocolo htttp
-        3° PROTOCOLO HTTP: possui o request q é uma ENVELOPE(mensagem) pois esta formatado padrao de HEADER e MASSAGE
-        4° SERVIDOR: o servidor recebe a mensagem 
+           1° CLIENTE = começa a transferir Dados
+           2° DADOS   = vai na parte do body do verbo http, transmiti os dados atraves do protocolo htttp
+           3° PROTOCOLO HTTP: possui o request q é uma ENVELOPE(mensagem) pois esta formatado padrao de HEADER e MASSAGE
+           4° SERVIDOR: o servidor recebe a mensagem 
         
-        simplesmente pega um dado via texto, passa via texto e recebe via texto
+           Simplesmente pega um dado via texto, passa via texto e recebe via texto
 
