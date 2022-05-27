@@ -14,3 +14,15 @@ Para fazer um RESPONSE: Códigos de status de respostas do servidor HTTP: 100 = 
 
                         Conceito de Response HEADER  : Passar o cockie, token 
                         Conceito de Response MASSAGE : Informar a resposta q vai ser exibida ( lista de produto, pagina html e etc..)
+                        
+
+
+REST : Envio de dados com base em REST - Estado de representação do dado
+
+      CLIENTE -> DADOS -> HTTP -> SERVIDOR
+
+        1° CLIENTE = começa a transferir Dados
+        2° DADOS   = vai na parte do body do verbo http, transmiti os dados atraves do protocolo htttp
+        3° PROTOCOLO HTTP: possui o request q é uma ENVELOPE(mensagem) pois esta formatado padrao de HEADER e MASSAGE
+        4° SERVIDOR: o servidor recebe a mensagem 
+
