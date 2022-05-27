@@ -3,17 +3,17 @@ REST API C# com ASP.NET Core Web API
 
 Protocolo HTTP: Conversar com o servidor atraves de REQUEST E RESPONSE ( Client faz um request ao Server que retorna um response )
 
-Para fazer um REQUEST: Possui o Verbo HTTP : GET para obter, POST para inserir, PATH ou PUT para atualizar e DELETE para excluir
-                       Precisa informar a URI : qual o endereço da internet
-                       Versão: 1.1
+Um REQUEST: Possui o Verbo HTTP : GET para obter, POST para inserir, PATH ou PUT para atualizar e DELETE para excluir
+            Precisa informar a URI : qual o endereço da internet
+            Versão: 1.1
                        
-                       Conceito de Request HEADER  : É o cabeçalho da requisição (e passado a versão do broweser, cockier de autenticacao... )
-                       Conceito de Request MASSAGE : É passado as informações ( Dados do produto )
+            Conceito de Request HEADER  : É o cabeçalho da requisição (e passado a versão do broweser, cockier de autenticacao... )
+            Conceito de Request MASSAGE : É passado as informações ( Dados do produto )
                        
-Para fazer um RESPONSE: Códigos de status de respostas do servidor HTTP: 100 = informaçao 200 = ok , 300 = redirecionamente, 400 = não permitido, 500 = erro
+Um RESPONSE: Códigos de status de respostas do servidor HTTP: 100 = informaçao 200 = ok , 300 = redirecionamente, 400 = não permitido, 500 = erro
 
-                        Conceito de Response HEADER  : Passar o cockie, token 
-                        Conceito de Response MASSAGE : Informar a resposta q vai ser exibida ( lista de produto, pagina html e etc..)
+            Conceito de Response HEADER  : Passar o cockie, token 
+            Conceito de Response MASSAGE : Informar a resposta q vai ser exibida ( lista de produto, pagina html e etc..)
                         
 
 
@@ -25,4 +25,6 @@ REST : Envio de dados com base em REST - Estado de representação do dado
         2° DADOS   = vai na parte do body do verbo http, transmiti os dados atraves do protocolo htttp
         3° PROTOCOLO HTTP: possui o request q é uma ENVELOPE(mensagem) pois esta formatado padrao de HEADER e MASSAGE
         4° SERVIDOR: o servidor recebe a mensagem 
+        
+        simplesmente pega um dado via texto, passa via texto e recebe via texto
 
