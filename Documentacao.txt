@@ -17,7 +17,7 @@ Um RESPONSE: Códigos de status de respostas do servidor HTTP: 100 = informaçao
                         
 
 
-REST : Envio de dados com base em REST - Estado de representação do dado
+ARQUITETURA REST : Envio de dados com base em REST - Estado de representação do dado
 
         CLIENTE -> DADOS -> HTTP -> SERVIDOR
 
