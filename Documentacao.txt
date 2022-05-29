@@ -56,3 +56,20 @@ FornecedorViewModel.cs
             public int TipoFornecedor {get; set;}
             
             public bool Ativo {get; set;}
+            
+Pasta Model criar a class > ApiDbContext.cs
+
+            public class ApiDbContext : DbContext{
+            
+Ir em Startup.cs dizendo q esta sendo usado a ApiDbContext.cs
+
+            public void ConfigureServices(IServiceCollection services){
+            
+                 services.AddDbContext<ApiDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                 
+                 services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            }
+            
+            
+                        
+            
