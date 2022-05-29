@@ -31,3 +31,28 @@ ARQUITETURA REST : Envio de dados com base em REST - Estado de representação d
 
 Crud Básico em ASP.NET Core 
 
+            create a new project > ASP.NET Core Web Application
+            .NET Core > ASP.NET Core 2.2 > API
+
+Criar a pasta Model > botão direito sobre o projeto ( nova pasta)
+
+            na pasta Model > criar a class FornecedorViewModel.cs
+            
+FornecedorViewModel.cs
+
+            public class FornecedorViewModel{
+            
+            [key]
+            public Guid id {get; set;}
+            
+            [Required(ErrorMessage = " O campo {0} é obrigatório")]
+            [StringLength(100, ErroMessage = " O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+            
+            [Required(ErroMessage = " O campo {0} e obrigatorio")]
+            [StringLength(14, ErrorMessage = " O campo {0} precisa ter entre {2} e {1} caracteres", MinimunLength = 11)]
+            
+            public string Nome {get; set;}
+            
+            public int TipoFornecedor {get; set;}
+            
+            public bool Ativo {get; set;}
