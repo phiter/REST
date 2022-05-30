@@ -72,4 +72,39 @@ Ir em Startup.cs dizendo q esta sendo usado a ApiDbContext.cs
             
             
                         
+ApiDbContext.cs utilizar um construtor para passar as options necessaria, onde a class base vai receber as options
+Mapear a viewModel usando dbset
+
+
+            public class ApiDbContext : DbContext{
+            
+            public ApiDbContext(DbContextOptions options) : base(options){
+            
+            }
+            
+            public DbSet<FornecedorViewModel> Fornecedores {get; set; }
+
+            }
+            
+Gerar as migration > package manage console
+
+            Add-Migration Initial
+            
+Definir uma conection string apontando para o banco local > AppSetting.json
+
+            "ConnectionStrings" : {
+            "DefaultConnection" : "Server=(localdb)\\mssqllocaldb;Database=MinhaApiCore;Trusted_Connection=True;MultipleActiveResultSets=true"
+            }}
+            
+
+
+fazer a migration agora com a string de conexao criada > pagckage manage console
+            
+            Add-Migration Initial
+            
+
+ adfs          
+
+            
+            
             
