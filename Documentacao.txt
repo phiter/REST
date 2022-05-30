@@ -172,5 +172,10 @@ Para testar o post apenas alterar o verbo da aba de busca de GET para POST
             }
             
             
+Colocar um breakPoint no FornecedorController.cs
+
+            linha 77 > colocar um breakPoint
+            voltar no post e dar um > SEND
+            
             
             
