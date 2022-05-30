@@ -131,6 +131,11 @@ Fazer o primeiro cadastro via banco
             
             dbb.fornecedores colar o GUID em id e preencher os demais campos (Nome, Documento, TipoFornecedor, Ativo )
             
+            roda a api no console , devera aparecer a informações em formato de json :  https://api/fornecedores
             
+O que é um JSON e como funciona
+
+            O JSON se baseia na notação NOME : VALOR, onde NOME pode ser o nome que você deseja usar para identificar um objeto
+            e VALOR é o valor deste objeto.( Formatação utilizada p/ estruturar dados em formato de texto e transmiti-los de um sistema para outro )
             
             
