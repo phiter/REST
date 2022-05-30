@@ -203,3 +203,6 @@ Para testar o post apenas alterar o verbo da aba de busca de GET para POST
             
             Dar um > SEND
             
+Mudar o verbo para delete
+
+            dar mesma forma feito no PUT vai ser passado o id posteriomente na url 
