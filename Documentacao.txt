@@ -29,7 +29,7 @@ ARQUITETURA REST : Envio de dados com base em REST - Estado de representação d
            Simplesmente pega um dado via texto, passa via texto e recebe via texto
            
 
-Crud Básico em ASP.NET Core 
+Crud Básico e Rápido em ASP.NET Core usando Scafolding
 
             create a new project > ASP.NET Core Web Application
             .NET Core > ASP.NET Core 2.2 > API
