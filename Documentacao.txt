@@ -174,8 +174,32 @@ Para testar o post apenas alterar o verbo da aba de busca de GET para POST
             
 Colocar um breakPoint no FornecedorController.cs
 
-            linha 77 > colocar um breakPoint
+            linha 77 > Verbo Post  >  colocar um breakPoint
             voltar no post e dar um > SEND
             
+fazer um PUT o mesmo procedimento, colocando um breakPoint no FornecedorController.cs
             
+            linha 46 > Verbo PUT  >  colocar um breakPoint
+
+Para testar o post apenas alterar o verbo da aba de busca de GET para POST
+
+            mudar o vebo para put 
+
+            vai ser trocado uma informação qualquer pra ter alteração            
+            
+            E agora alem da url dps do ultimo barra vai ser passado o id gerado nos verbos anteriores
+            
+            https:localhost:44315//api/fornecedores/321615646546461616164            
+            
+
+            {
+            "id" : "",
+            "nome" : "",
+            "documento : "",
+            "tipoFornecedor" : "",
+            "ativo : true
+            }
+            
+            
+            Dar um > SEND
             
