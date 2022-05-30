@@ -98,13 +98,39 @@ Definir uma conection string apontando para o banco local > AppSetting.json
             
 
 
-fazer a migration agora com a string de conexao criada > pagckage manage console
+Gerar a migration agora com a string de conexao criada e criar o banco > pagckage manage console
             
             Add-Migration Initial
+            update-database
             
 
- adfs          
+            
+Agora atraves do Scalfolding criar a Controller
 
+            Botao direito na pasta Controllers > Add > New Controller > API Controller with actions, using Entity Framework
+            
+            Model Class        :  Fornecedo (MinhaAPICore.Model)
+            Data COntext Class :  ApiDbContext(MinhaAPICore.Model)
+            
+            Nome da Class : ForncedoresController
+            
+            
+facilitar o lançamento da url > Propties > lauchSetting.json
+            
+            "profiles": {
+            "lauchUrl" : "api/fornecedores"
+            
+            "MinhaAPICore" : {
+            "lauchUrl" : "api/fornecedores"
+
+           
+Fazer o primeiro cadastro via banco
+
+            Sql Sever Object Explore > Localdb> database> MinhaApiCore > Tables >  botao direito>  dbo.Fornecdores > view data >
+            Tools > Create Guid > New GUID > Registy Format > Copy
+            
+            dbb.fornecedores colar o GUID em id e preencher os demais campos (Nome, Documento, TipoFornecedor, Ativo )
+            
             
             
             
