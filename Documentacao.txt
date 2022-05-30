@@ -131,11 +131,46 @@ Fazer o primeiro cadastro via banco
             
             dbb.fornecedores colar o GUID em id e preencher os demais campos (Nome, Documento, TipoFornecedor, Ativo )
             
-            roda a api no console , devera aparecer a informações em formato de json :  https://api/fornecedores
+            roda a api no brosew para testar o metodo get , devera aparecer a informações em formato de json :  https:localhost:44315//api/fornecedores
             
 O que é um JSON e como funciona
 
             O JSON se baseia na notação NOME : VALOR, onde NOME pode ser o nome que você deseja usar para identificar um objeto
             e VALOR é o valor deste objeto.( Formatação utilizada p/ estruturar dados em formato de texto e transmiti-los de um sistema para outro )
+            
+
+Agora para testar o metodo post, put e delete e necessario usar o POSTMAN
+
+            vou copiar minha url de fornecedores : https:localhost:44315//api/fornecedores
+            colar na aba de busca GET no Postman e dar Send pra executar
+            no postman consigo chamar meus metodos atraves dos verbos
+            
+            postman  > body do respnse > prety >  copiar os dados q veio no get e utilizar eles para fazer um post
+            
+            {
+            "id" : "",
+            "nome" : "",
+            "documento : "",
+            "tipoFornecedor" : "",
+            "ativo : true
+            }
+            
+Para testar o post apenas alterar o verbo da aba de busca de GET para POST
+
+            POST > https:localhost:44315//api/fornecedores > SEND
+            Body > raw > JSON(application/json) > colar o resultado do get no response acima
+            
+            vai ser trocado apenas o numero do id por outro qualquer 
+            
+            
+            {
+            "id" : "",
+            "nome" : "",
+            "documento : "",
+            "tipoFornecedor" : "",
+            "ativo : true
+            }
+            
+            
             
             
